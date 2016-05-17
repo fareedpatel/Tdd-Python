@@ -53,8 +53,8 @@ class NewVisitorTest(LiveServerTestCase):
         inputbox.send_keys(Keys.ENTER)
 
         #The page updates again, and now shows both items on her list
-        self.check_for_row_in_list_table('1: Buy peacock feathers')
         self.check_for_row_in_list_table('2: Use peacock feathers to make a fly')
+        self.check_for_row_in_list_table('1: Buy peacock feathers')
 
         # Now a new user, Francis, comes along to the site.
 
@@ -67,13 +67,13 @@ class NewVisitorTest(LiveServerTestCase):
         #lists
         self.browser.get(self.live_server_url)
         page_text = self.browser.find_element_by_tag_name('body').text
-        self.assertNotIn = ('Buy peacock feathers', page_text)
-        self.assertNotIn = ('make a fly', page_text)
+        self.assertNotIn('Buy peacock feathers', page_text)
+        self.assertNotIn('make a fly', page_text)
 
         # Francis starts a new list by entering a new item. He
         # is less interesting than Edith...
         inputbox = self.browser.find_element_by_id('id_new_item')
-        inputbox.send_keys('Buys milk')
+        inputbox.send_keys('Buy milk')
         inputbox.send_keys(Keys.ENTER)
 
         # Francis gets his own unique URL
@@ -84,6 +84,6 @@ class NewVisitorTest(LiveServerTestCase):
         # Again, there is no trace of Edith's list
         page_text = self.browser.find_element_by_tag_name('body').text
         self.assertNotIn('Buy peacock feathers', page_text)
-        self.assertNotIn('Buys milk', page_text)
+        self.assertIn('Buy milk', page_text)
 
         # Satisfied, she goes back to sleep
